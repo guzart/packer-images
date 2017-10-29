@@ -1,0 +1,30 @@
+{
+  "name": "packer-images",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Collection of script to build packer and vagrant images",
+  "scripts": {
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guzart/packer-images.git"
+  },
+  "author": "Arturo Guzman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guzart/packer-images/issues"
+  },
+  "homepage": "https://github.com/guzart/packer-images#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cli": "^1.4.0",
+    "jshell": "^1.0.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.3"
+  },
+  "devDependencies": {
+    "@types/gulp": "^3.8.33"
+  }
+}
