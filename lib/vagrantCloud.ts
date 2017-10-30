@@ -2,6 +2,9 @@ import { execSync } from 'child_process';
 import chalk from 'chalk';
 
 import * as utils from './utils';
+import * as vagrant from './vagrant';
+
+const log = (...info: any[]) => utils.log(chalk.greenBright(...info));
 
 interface UploadOptions {
   accessToken: string;
@@ -23,7 +26,7 @@ interface Provider {
 
 interface Version {
   version: string;
-  status: string;
+  status: 'released' | 'unreleased';
   description_html: string;
   description_markdown: string;
   created_at: string;
@@ -45,9 +48,8 @@ interface ReadBoxResponse {
   description_markdown: string;
   private: boolean;
   current_version?: Version;
+  versions: Version[];
 }
-
-const log = (...info: any[]) => utils.log(chalk.green(...info));
 
 export const readBox = (
   boxName: string,
@@ -75,13 +77,30 @@ export const upload = (imagePath: string, options: UploadOptions) => {
   const imageName = options.boxName || utils.extractImageName(imagePath);
   const providerName = options.providerName || 'virtualbox';
 
-  const prepareUrl = `https://vagrantcloud.com/api/v1/box/${options.username}/${imageName}/version/${options.version}/provider/${providerName}/upload?access_token=${options.accessToken}`;
+  const prepareUrl = `https://app.vagrantup.com/api/v1/box/${options.username}/${imageName}/version/${options.version}/provider/${providerName}/upload?access_token=${options.accessToken}`;
+  const prepareCmd = `curl --silent ${prepareUrl}`;
   const prepareResponse: PrepareUploadResponse = JSON.parse(
-    execSync(`curl --silent ${prepareUrl}`, { cwd }).toString()
+    execSync(prepareCmd, { cwd }).toString()
   );
   execSync(
     `curl -X PUT --upload-file ${imageName}.box ${prepareResponse.upload_path}`,
     { cwd, stdio: 'inherit' }
   );
+  log('Upload complete.');
   // TODO: add verification
+};
+
+export const releaseVersion = (options: UploadOptions) => {
+  const url = `https://app.vagrantup.com/api/v1/box/${options.username}/${options.boxName}/version/${options.version}/release`;
+  execSync(
+    `curl --request PUT --header "Authorization: Bearer ${options.accessToken}" ${url}`,
+    { stdio: 'inherit' }
+  );
+};
+
+export const build = (imagePath: string, options: UploadOptions) => {
+  // vagrant.build(imagePath);
+  upload(imagePath, options);
+  releaseVersion(options);
+  vagrant.cleanup(imagePath);
 };
