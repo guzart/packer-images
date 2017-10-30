@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+
+  vars:
+    ntp_enabled: true
+    ntp_timezone: UTC
+
+    swapfile__size: 2048
+
+  roles:
+    - geerlingguy.ntp
+    - debops.swapfile
+    - geerlingguy.docker

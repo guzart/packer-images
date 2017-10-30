@@ -1,0 +1,27 @@
+{
+  "variables": {
+    "digitalocean_access_token": "{{env `DIGITALOCEAN_ACCESS_TOKEN`}}"
+  },
+  "builders": [
+    {
+      "type": "digitalocean",
+      "name": "docker-node",
+      "api_token": "{{user `digitalocean_access_token`}}",
+      "region": "tor1",
+      "image": "ubuntu-16-04-x64",
+      "size": "1gb",
+      "ssh_username": "root",
+      "droplet_name": "docker-node-{{timestamp}}",
+      "private_networking": true,
+      "monitoring": true,
+      "snapshot_name": "docker-node-16-04-{{timestamp}}",
+      "snapshot_regions": ["tor1"]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible-local",
+      "playbook_file": "playbook.yml"
+    }
+  ]
+}

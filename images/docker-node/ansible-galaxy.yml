@@ -1,0 +1,13 @@
+---
+
+# https://galaxy.ansible.com/geerlingguy/ntp/
+- src: geerlingguy.ntp
+  version: 1.5.2
+
+# https://galaxy.ansible.com/debops/swapfile/
+- src: debops.swapfile
+  version: v0.3.0
+
+# https://galaxy.ansible.com/geerlingguy/docker/
+- src: geerlingguy.docker
+  version: 2.1.0

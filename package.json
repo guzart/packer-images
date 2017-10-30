@@ -18,13 +18,19 @@
   },
   "homepage": "https://github.com/guzart/packer-images#readme",
   "dependencies": {
+    "chalk": "^2.3.0",
+    "dotenv": "^4.0.0",
     "gulp": "^3.9.1",
     "gulp-cli": "^1.4.0",
-    "jshell": "^1.0.0",
+    "inquirer": "^3.3.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.3"
   },
   "devDependencies": {
-    "@types/gulp": "^3.8.33"
+    "@types/chalk": "^2.2.0",
+    "@types/dotenv": "^4.0.2",
+    "@types/gulp": "^3.8.33",
+    "@types/inquirer": "0.0.35",
+    "nsp": "^2.8.1"
   }
 }
